@@ -8,26 +8,26 @@ import {
   Alert,
 } from 'react-native';
 import {Input} from 'react-native-elements';
+import auth from '@react-native-firebase/auth';
 // import {auth} from '../../firebaseConfig';
 // import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 const SignupScreen = ({navigation}) => {
   const [signedIn, setSignedIn] = React.useState(false);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  // const handleSingnUp = () => {
-  //   addData();
-  //   createUserWithEmailAndPassword(auth, email, password)
-  //     .then(userCredientials => {
-  //       const user = userCredientials.user;
-  //       setSignedIn(true);
-  //       Alert.alert('Account Created Successfully');
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
+  const handleSingnUp = () => {
+    auth().createUserWithEmailAndPassword(auth, email, password)
+      .then(userCredientials => {
+        const user = userCredientials.user;
+        setSignedIn(true);
+        Alert.alert('Account Created Successfully');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   // const addData = () => {
   //   console.log('in add data');
   //   const currentUser = getAuth().currentUser;
@@ -78,7 +78,7 @@ const SignupScreen = ({navigation}) => {
           <Text style={{marginLeft: 70, color: '#6B7280'}}>
             Every Information is securely stored.
           </Text>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleSingnUp}>
             <Text
               style={{
                 textAlign: 'center',
