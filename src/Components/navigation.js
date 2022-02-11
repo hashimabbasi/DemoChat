@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Signup from '../Screens/signup';
 import LoginScreen from '../Screens/login';
-// import Chat from '../Chat';
+import Chat from '../Screens/Chat';
 const ScreenNavigation = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -14,7 +14,7 @@ const ScreenNavigation = () => {
         }}>
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Signup" component={Signup} />
-        {/* <Stack.Screen name="ChatScreen" component={Chat} /> */}
+        <Stack.Screen name="ChatScreen" component={Chat} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import {Input} from 'react-native-elements';
 import auth from '@react-native-firebase/auth';
-// import {auth} from '../../firebaseConfig';
-// import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 const SignupScreen = ({navigation}) => {
   const [signedIn, setSignedIn] = React.useState(false);
@@ -18,9 +16,10 @@ const SignupScreen = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const handleSingnUp = () => {
-    auth().createUserWithEmailAndPassword(auth, email, password)
+    auth().createUserWithEmailAndPassword(email, password)
       .then(userCredientials => {
         const user = userCredientials.user;
+        addData()
         setSignedIn(true);
         Alert.alert('Account Created Successfully');
       })
@@ -28,16 +27,16 @@ const SignupScreen = ({navigation}) => {
         console.log(err);
       });
   };
-  // const addData = () => {
-  //   console.log('in add data');
-  //   const currentUser = getAuth().currentUser;
-  //   firestore().collection('users').doc(currentUser.uid).set({
-  //     email: email,
-  //     lastName: name,
-  //     password: password,
-  //   });
-  //   console.log('add data complete');
-  // };
+  const addData = () => {
+    const currentUser = auth().currentUser;
+    console.log(currentUser.uid)
+    firestore().collection('Users').doc(currentUser.uid).set({
+      email: email,
+      lastName: name,
+      password: password,
+    });
+    console.log('add data complete');
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.mainTxt}>Create an Account</Text>

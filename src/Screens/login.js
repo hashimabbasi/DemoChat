@@ -8,21 +8,19 @@ import {
   Alert,
 } from 'react-native';
 import {Input} from 'react-native-elements';
-// import {auth} from '../../firebaseConfig';
+import auth from '@react-native-firebase/auth';
 // import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-//   const handleSignin = () => {
-//     console.log('in hanlesign in');
-//     signInWithEmailAndPassword(auth, email, password)
-//       .then(() => {
-//         const currentUser = getAuth().currentUser;
-//         console.log('current User  is :' + currentUser.email);
-//         navigation.navigate('ChatScreen');
-//       })
-//       .catch(err => alert(err));
-//   };
+  const handleSignin = () => {
+    console.log('in hanlesign in');
+    auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        navigation.navigate('ChatScreen');
+      })
+      .catch(err => alert(err));
+  };
   return (
     <View style={styles.container}>
       <View style={styles.login}>
@@ -62,7 +60,7 @@ const LoginScreen = ({navigation}) => {
           {' '}
           Forgot Password{' '}
         </Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleSignin}>
           <Text
             style={{textAlign: 'center', color: 'white', fontWeight: 'bold'}}>
             Login
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     backgroundColor: '#03045E',
-    paddingTop: 70,
+    paddingTop: 90,
   },
   logo: {
     width: 138,
