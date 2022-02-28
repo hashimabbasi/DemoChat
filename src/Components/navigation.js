@@ -8,8 +8,13 @@ import Inbox from '../Screens/inbox';
 const ScreenNavigation = () => {
   const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator
+    <NavigationContainer  >
+      <Stack.Navigator screenOptions={{
+         headerStyle: {
+          backgroundColor: '#03045E',
+        },
+        headerTintColor: '#fff',
+      }}
       >
         <Stack.Screen name="LoginScreen" component={LoginScreen}   
         options={{
@@ -17,7 +22,9 @@ const ScreenNavigation = () => {
       }}
         />
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="ChatScreen" component={Chat} />
+        <Stack.Screen name="ChatScreen" component={Chat} 
+        options={({ route }) => ({ title: route.params.name })}
+        />
         <Stack.Screen name="InboxScreen" component={Inbox} 
         
         options={{ title: 'Inbox' }}

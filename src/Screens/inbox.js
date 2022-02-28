@@ -16,6 +16,7 @@ const Inbox = ({navigation}) => {
   const currentuser = auth().currentUser
   var id;
   var avatar;
+  var name;
   const getUsers = async () => {
     setLoading(true)
     const users = await firestore().collection('Users').get();
@@ -23,7 +24,6 @@ const Inbox = ({navigation}) => {
     const arr = result.filter((item)=>{
       return item.uid != currentuser.uid
     })
-    console.log(arr)
     setItems(arr)
     setLoading(false)
   };
@@ -38,16 +38,13 @@ const Inbox = ({navigation}) => {
       <FlatList
         data={items}
         renderItem={items => {
-          // console.log(items.item);
           return (
             <View>
               <TouchableOpacity onPress={()=>{
-                console.log("previous user name "+id)
-                console.log("selcted User name "+items.item.uid)
                 id=items.item.uid
+                name = items.item.lastName
                 avatar=items.item.Avatar
-                console.log("current user name "+id)
-                navigation.navigate("ChatScreen", {id,avatar})
+                navigation.navigate("ChatScreen", {id,avatar, name})
               }}>
               <ListItem bottomDivider>
                 <Avatar rounded source={{uri: items.item.Avatar}} />
@@ -70,7 +67,7 @@ const Inbox = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+    
   },
   text: {
     // backgroundColor: 'red',
