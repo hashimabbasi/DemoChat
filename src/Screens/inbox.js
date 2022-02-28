@@ -15,6 +15,7 @@ const Inbox = ({navigation}) => {
   const [items, setItems] = useState([]);
   const currentuser = auth().currentUser
   var id;
+  var avatar;
   const getUsers = async () => {
     setLoading(true)
     const users = await firestore().collection('Users').get();
@@ -44,8 +45,9 @@ const Inbox = ({navigation}) => {
                 console.log("previous user name "+id)
                 console.log("selcted User name "+items.item.uid)
                 id=items.item.uid
+                avatar=items.item.Avatar
                 console.log("current user name "+id)
-                navigation.navigate("ChatScreen", {id})
+                navigation.navigate("ChatScreen", {id,avatar})
               }}>
               <ListItem bottomDivider>
                 <Avatar rounded source={{uri: items.item.Avatar}} />

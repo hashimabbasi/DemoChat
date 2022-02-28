@@ -1,12 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import {View, Text, StyleSheet} from 'react-native';
-import {GiftedChat} from 'react-native-gifted-chat';
+import {GiftedChat,Bubble} from 'react-native-gifted-chat';
 import auth from '@react-native-firebase/auth';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 const Chat = ({route}) => {
   const Adminuid= '9KTfk8CLxnOdvp9RooWprDZeRfm1';
   const currentuser = auth().currentUser
   const secondUser= route.params.id
+  const avatar= route.params.avatar
+  console.log(avatar)
   console.log("UID ON CHAT PAGE IS  "+ secondUser)
   const [messages, setMessages] = useState([]);
 
@@ -50,7 +52,25 @@ const Chat = ({route}) => {
        onSend={messages => onSend(messages)}
        user={{
          _id: currentuser.uid,
-       }}
+         avatar:avatar,
+       }
+      }
+      renderBubble={props => {
+        return (
+          <Bubble
+            {...props}
+            wrapperStyle={{
+              left: {
+                backgroundColor: 'white',
+                elevation:5,
+              },
+              right: {
+                elevation:5,
+              },
+            }}
+          />
+        );
+      }}
       />
     </View>
   );
