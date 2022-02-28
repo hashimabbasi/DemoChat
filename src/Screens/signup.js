@@ -5,16 +5,19 @@ import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
+  ScrollView,
   Alert,
 } from 'react-native';
 import {Input} from 'react-native-elements';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
 const SignupScreen = ({navigation}) => {
   const [signedIn, setSignedIn] = React.useState(false);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [avatar,setAvatar]= React.useState('')
   const handleSingnUp = () => {
     auth().createUserWithEmailAndPassword(email, password)
       .then(userCredientials => {
@@ -34,10 +37,12 @@ const SignupScreen = ({navigation}) => {
       email: email,
       lastName: name,
       password: password,
+      uid: currentUser.uid,
     });
     console.log('add data complete');
   };
   return (
+    <ScrollView >
     <View style={styles.container}>
       <Text style={styles.mainTxt}>Create an Account</Text>
       <View>
@@ -72,7 +77,16 @@ const SignupScreen = ({navigation}) => {
           value={password}
           onChangeText={setPassword}
         />
-
+         <Input
+          label="Avatar Url"
+          style={styles.inputContainer}
+          labelStyle={styles.labelSection}
+          inputContainerStyle={styles.inputContainer}
+          placeholder="Avatar Url"
+          inputStyle={styles.input}
+          value={avatar}
+          onChangeText={avatar}
+        />
         <View style={styles.bottomView}>
           <Text style={{marginLeft: 70, color: '#6B7280'}}>
             Every Information is securely stored.
@@ -105,6 +119,7 @@ const SignupScreen = ({navigation}) => {
         </View>
       </View>
     </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -113,6 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
+    paddingTop:30,
   },
   mainTxt: {
     color: '#303030',

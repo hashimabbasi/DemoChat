@@ -5,7 +5,7 @@ module.exports = {
   trailingComma: 'all',
   arrowParens: 'avoid',
 };
-'prettier/prettier': [
+'prettier/prettier' : [
   'error',
   {
     'endOfLine': 'auto',

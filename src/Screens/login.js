@@ -17,7 +17,7 @@ const LoginScreen = ({navigation}) => {
     console.log('in hanlesign in');
     auth().signInWithEmailAndPassword(email, password)
       .then(() => {
-        navigation.navigate('ChatScreen');
+      navigation.navigate('InboxScreen')
       })
       .catch(err => alert(err));
   };

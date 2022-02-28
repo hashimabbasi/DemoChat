@@ -2,37 +2,47 @@ import React, { useState, useCallback, useEffect } from 'react'
 import {View, Text, StyleSheet} from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-const Chat = () => {
+import firestore, { firebase } from '@react-native-firebase/firestore';
+const Chat = ({route}) => {
   const Adminuid= '9KTfk8CLxnOdvp9RooWprDZeRfm1';
   const currentuser = auth().currentUser
+  const secondUser= route.params.id
+  console.log("UID ON CHAT PAGE IS  "+ secondUser)
   const [messages, setMessages] = useState([]);
+
+  const getMessages = async()=>{
+    const docid = currentuser.uid > secondUser ? currentuser.uid + secondUser : secondUser + currentuser.uid
+    const Chat = await firestore().collection("Chats").doc(docid).collection('messages').
+    orderBy('createdAt',"desc").
+    get()
+    const result = Chat.docs.map(docSnap =>{
+      return{
+        ...docSnap.data(),
+        createdAt:docSnap.data().createdAt.toDate()
+      }
+    });
+    setMessages(result)
+
+  }  
   useEffect(() => {
-    setMessages([
-      {
-        _id: Adminuid,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
+    getMessages()
   }, [])
  
-  const saveData = async(messages)=>{
-    const docid = currentuser.uid > Adminuid ? currentuser.uid + Adminuid : Adminuid + currentuser.uid
+  const saveData = async(messagesArr)=>{
+    const docid = currentuser.uid > secondUser ? currentuser.uid + secondUser : secondUser + currentuser.uid
    console.log(docid)
     await firestore().collection("Chats").doc(docid).collection('messages').add({
-      messages
+      ...messagesArr,createdAt: firestore.FieldValue.serverTimestamp()
     })
   }
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    saveData(messages)
-  }, [])
+  const onSend =(messages) => {
+    const Arr = messages[0]
+    const messagesArr = {
+      ...Arr, createdAt: new Date()
+    }
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messagesArr))
+    saveData(messagesArr)
+  }
   return (
     <View style={styles.container}>
       <GiftedChat 
