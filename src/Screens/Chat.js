@@ -71,6 +71,7 @@ const Chat = ({route}) => {
               },
               right: {
                 elevation:2,
+                backgroundColor: '#03045E',
               },
             }}
           />

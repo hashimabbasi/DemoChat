@@ -46,7 +46,8 @@ const Inbox = ({navigation}) => {
                 avatar=items.item.Avatar
                 navigation.navigate("ChatScreen", {id,avatar, name})
               }}>
-              <ListItem bottomDivider>
+              <ListItem bottomDivider    
+              >
                 <Avatar rounded source={{uri: items.item.Avatar}} />
                 <ListItem.Content>
                   <ListItem.Title>{items.item.lastName}</ListItem.Title>
@@ -70,11 +71,8 @@ const styles = StyleSheet.create({
     
   },
   text: {
-    // backgroundColor: 'red',
-    // color: 'white',
     fontSize: 20,
   },
-  avatar: {},
 });
 
 export default Inbox;
